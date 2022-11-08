@@ -2,13 +2,13 @@
     <div id="messageArea"> Replace Me </div>
 </body>
 <script>
-
+//ONLY WILL WORK WITH PREVIEW OR LIVESERVER
     // fetches user 1 and displays their email
     let element = document.getElementById("messageArea");
 
-    fetch("http://jsonplaceholder.typicode.com/users/1")
-        .then(response => response.json()) //like JSON.parse(...)
-        .then(data => { //Receive the javascript data
+    fetch("../user.json")
+        .then(response => response.json())
+        .then(data => {
             let message = "User email: " + data.email;
             element.innerHTML = message
         });
