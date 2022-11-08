@@ -1,0 +1,40 @@
+<body>
+    <div id="display_area"></div>
+</body>
+<script>
+    // fetches all users and places their emails in a dropdown list
+
+    //GENERIC
+    function renderSelect(data, target, keyPropertyDisplay, keyPropertyValue) { 
+        //draw a select
+        let select = document.createElement("select");
+            
+        for (let i = 0; i < data.length; i++) {
+            let opt = document.createElement("option");
+            opt.textContent = data[i][keyPropertyDisplay];
+            opt.value = data[i][keyPropertyValue];
+            select.appendChild(opt);
+        }
+        target.appendChild(select);
+        return select;
+    }
+    
+    function renderEmailList(data){
+        const area = document.getElementById("display_area");
+        //const area = display_area;//Does not work if window is not the default - button click
+         renderSelect(data, area, "email", "id");
+    }
+
+    fetch("http://jsonplaceholder.typicode.com/users")
+        .then(response => response.json())
+        .then(renderEmailList);
+    
+    function renderTodoList(data){
+         renderSelect(data, document.getElementById("display_area"), "title", "id");
+    }
+
+    fetch("http://jsonplaceholder.typicode.com/todos")
+        .then(response => response.json())
+        .then(renderTodoList);
+    
+</script>
