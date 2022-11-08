@@ -1,3 +1,5 @@
+// const fs = require('fs'); //FS == FILE SYSTEM
+import fs from 'fs'; 
 
 console.log(Math.random()) //a number between 0 and 1
 
@@ -48,3 +50,6 @@ for(let i=0; i<999; i++){
 for(let k in outcomes){
     console.log(k, outcomes[k], "#".repeat(outcomes[k]/4))
 }
+const text = JSON.stringify(outcomes);
+
+fs.writeFile('normal_random_distribution.json', text, console.log);
