@@ -6,7 +6,7 @@
     // fetches user 1 and displays their email
     let element = document.getElementById("messageArea");
 
-    fetch("../user.json")
+    fetch("user.json")
         .then(response => response.json())
         .then(data => {
             let message = "User email: " + data.email;
