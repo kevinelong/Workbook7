@@ -1,0 +1,21 @@
+<body>
+    <div id="messageArea"> Replace Me </div>
+</body>
+<script>
+    //GENERIC REUSABLE THAT WRAPS THE UGLINESS OF FETCH
+    function GET(url, callbackHandler){
+        fetch(url)
+            .then(res => res.json())
+            .then(callbackHandler); 
+    }
+
+    // fetches user 1 and displays their email        
+    function renderEmail(data){ //render == draw
+        let element = document.getElementById("messageArea");
+        let message = "User email: " + data.email;
+        element.innerHTML = message;
+    }
+
+    const url = "http://jsonplaceholder.typicode.com/users/1";
+    GET(url, renderEmail) //pass in the url and the name of the call back function
+</script>

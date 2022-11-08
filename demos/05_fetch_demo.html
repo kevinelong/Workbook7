@@ -1,0 +1,18 @@
+<body>
+    <select id="emailDropdown"></select>
+</body>
+<script>
+
+    // fetches all users and places their emails in a dropdown list
+    let element = document.getElementById("emailDropdown");
+    fetch("http://jsonplaceholder.typicode.com/users")
+        .then(response => response.json())
+        .then(data => {
+            for (let i = 0; i < data.length; i++) {
+                let opt = document.createElement("option");
+                opt.textContent = data[i].email;
+                opt.value = data[i].email;
+                element.appendChild(opt);
+            }
+        });
+</script>
