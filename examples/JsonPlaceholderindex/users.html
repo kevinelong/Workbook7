@@ -1,0 +1,51 @@
+<body>
+    <table id="userTable" border="1"></table>
+</body>
+<script>
+        /* EXAMPLE DATA
+    {
+        "id": 1,
+        "name": "Leanne Graham",
+        "username": "Bret",
+        "email": "Sincere@april.biz",
+        "phone": "1-770-736-8031 x56442",
+        "website": "hildegard.org",
+    },
+  */
+  const endpoint = "https://jsonplaceholder.typicode.com/users";
+
+    // fetches all users and places their names and emails
+    // in a table
+    let table = document.getElementById("userTable");
+    fetch(endpoint)
+        .then(response => response.json())
+        .then(data => {
+            for (let i = 0; i < data.length; i++) {
+                let row = table.insertRow(-1); //CREATE ELEMENT AND APPEND TO PARENT
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                let cell3 = row.insertCell(2);
+                let cell4 = row.insertCell(3);
+                let cell5 = row.insertCell(4);
+                let cell6 = row.insertCell(5);
+                let cell7 = row.insertCell(6);
+                let cell8 = row.insertCell(7);                
+                let cell9 = row.insertCell(8);
+                
+                cell1.innerHTML = data[i].id;
+                cell2.innerHTML = data[i].name;
+                cell3.innerHTML = data[i].username;
+                cell4.innerHTML = data[i].email;
+                cell5.innerHTML = data[i].phone;
+                cell6.innerHTML = data[i].website;
+                cell7.innerHTML = data[i].address.city; //DEEPER
+                cell8.innerHTML = data[i].company.name; //DEEPER
+
+                //COMBINED
+                cell9.innerHTML = data[i].address.geo.lat; //DEEPER
+                cell9.innerHTML += ", " + data[i].address.geo.lng; //DEEPER
+            }
+        });
+
+
+</script>

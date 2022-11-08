@@ -1,0 +1,22 @@
+<body>
+    <a href="index.html">Home</a>
+    <h1>Todo</h1>
+    <input type="number" value="1" id="todoID"> 
+    <button id="clickMe"> Go </button>
+    <div id="message"> Message will go here. </div>
+</body>
+<script>
+    const todoID = document.getElementById("todoID");
+    const clickMe = document.getElementById("clickMe");
+    const message = document.getElementById("message");
+    
+    clickMe.addEventListener("click", e => {
+        const id = todoID.value;
+        fetch(`https://jsonplaceholder.typicode.com/todos/${id}/`)
+        .then(response => response.json())
+        .then(data => {
+            message.innerHTML = data.title
+        })      
+    });
+
+</script>
