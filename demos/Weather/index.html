@@ -1,0 +1,89 @@
+<body>
+    <select id="cityList">
+        <option value="0,0"> select location </option>
+    </select>
+    <div id="selectedLocation">lat, lng</div>
+    <table id="results"></table>
+</body>
+<script>
+    const cityList = document.getElementById("cityList");
+    const selectedLocation = document.getElementById("selectedLocation");
+    const results = document.getElementById("results");
+
+    function addRow(period){
+        const row = document.createElement("tr");
+
+        const td = document.createElement("td");
+        td.innerHTML = period.name;
+        row.appendChild(td);
+
+        const td2 = document.createElement("td");
+        td2.innerHTML = period.temperature;
+        row.appendChild(td2);
+
+        const td3 = document.createElement("td");
+        td3.innerHTML = period.shortForecast;
+        row.appendChild(td3);
+
+        results.appendChild(row);
+    }
+
+    function showResult(data){
+        data.properties.periods.forEach(p=>addRow(p));
+    }
+
+    const baseURL = "https://api.weather.gov/";
+    function latLngURL(latLngPair){
+        //https://api.weather.gov/points/32.6791,-97.4641
+        return `${baseURL}points/${latLngPair}`; 
+    }
+
+    function secondFetch(url2){
+        fetch(url2)
+            .then(response => response.json())
+            .then( data => showResult(data))
+    }
+
+    function getWeather(latLngPair){
+        fetch(latLngURL(latLngPair))
+            .then(response => response.json())
+            .then( data => secondFetch(data.properties.forecast))
+    }
+
+    let cities = [
+        {
+            name: "Benbrook, TX",
+            latitude: 32.6732,
+            longitude: -97.4606
+        },
+        {
+            name: "Columbia City, OR",
+            latitude: 45.887550,
+            longitude: -122.812408
+        },
+        {
+            name: "Atlanta, GA",
+            latitude: 33.7887268,
+            longitude: -84.3714996
+        },
+        {
+            name: "Tampa, FL",
+            latitude:  27.7625000,
+            longitude:  -82.5458300
+        },
+    ];
+
+    function option(city){
+        const o = document.createElement("option");
+        o.innerHTML = city.name;
+        o.value = city.latitude + "," + city.longitude;
+        return o;
+    }
+    cities.forEach(c=>cityList.appendChild(option(c)));
+
+    cityList.addEventListener("change", e =>{
+        const latLngPair = cityList.selectedOptions[0].value;
+        selectedLocation.innerHTML = latLngPair;
+        getWeather(latLngPair)
+    });
+</script>
