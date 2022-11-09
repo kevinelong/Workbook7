@@ -3,14 +3,14 @@
         <option value="0,0"> select location </option>
     </select>
     <div id="selectedLocation">lat, lng</div>
-    <table id="results"></table>
+    <table id="results" border="1"></table>
 </body>
 <script>
     const cityList = document.getElementById("cityList");
     const selectedLocation = document.getElementById("selectedLocation");
     const results = document.getElementById("results");
 
-    function addRow(period){
+    function addRow(period) {
         const row = document.createElement("tr");
 
         const td = document.createElement("td");
@@ -18,37 +18,41 @@
         row.appendChild(td);
 
         const td2 = document.createElement("td");
-        td2.innerHTML = period.temperature;
+        td2.innerHTML = "Temperature " + period.temperature + " " + period.temperatureUnit;
         row.appendChild(td2);
 
         const td3 = document.createElement("td");
-        td3.innerHTML = period.shortForecast;
+        td3.innerHTML = "Winds " + period.windDirection + " " + period.windSpeed; ;
         row.appendChild(td3);
+
+        const td4 = document.createElement("td");
+        td4.innerHTML = period.shortForecast;
+        row.appendChild(td4);
 
         results.appendChild(row);
     }
 
-    function showResult(data){
+    function showResult(data) {
         results.innerHTML = "";
-        data.properties.periods.forEach(p=>addRow(p));
+        data.properties.periods.forEach(p => addRow(p));
     }
 
     const baseURL = "https://api.weather.gov/";
-    function latLngURL(latLngPair){
+    function latLngURL(latLngPair) {
         //https://api.weather.gov/points/32.6791,-97.4641
-        return `${baseURL}points/${latLngPair}`; 
+        return `${baseURL}points/${latLngPair}`;
     }
 
-    function secondFetch(url2){
+    function secondFetch(url2) {
         fetch(url2)
             .then(response => response.json())
-            .then( data => showResult(data))
+            .then(data => showResult(data))
     }
 
-    function getWeather(latLngPair){
+    function getWeather(latLngPair) {
         fetch(latLngURL(latLngPair))
             .then(response => response.json())
-            .then( data => secondFetch(data.properties.forecast))
+            .then(data => secondFetch(data.properties.forecast))
     }
 
     let cities = [
@@ -74,15 +78,15 @@
         },
     ];
 
-    function option(city){
+    function option(city) {
         const o = document.createElement("option");
         o.innerHTML = city.name;
         o.value = city.latitude + "," + city.longitude;
         return o;
     }
-    cities.forEach(c=>cityList.appendChild(option(c)));
+    cities.forEach(c => cityList.appendChild(option(c)));
 
-    cityList.addEventListener("change", e =>{
+    cityList.addEventListener("change", e => {
         const latLngPair = cityList.selectedOptions[0].value;
         selectedLocation.innerHTML = latLngPair;
         getWeather(latLngPair)
