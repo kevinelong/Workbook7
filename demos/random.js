@@ -48,7 +48,7 @@ for(let i=0; i<999; i++){
     outcomes[diceRollMany(6, 3)]++;
 }
 for(let k in outcomes){
-    console.log(k, outcomes[k], "#".repeat(outcomes[k]/4))
+    console.log("#".repeat(outcomes[k]/3), k, outcomes[k])
 }
 const text = JSON.stringify(outcomes);
 
